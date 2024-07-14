@@ -35,7 +35,7 @@ const ProcessManager = (function () {
 	let universalSeed = new Date() / 1.;
 
 	let count = 0;
-	const maxArrSize = 20000;
+	const maxArrSize = 30000;
 
 	let canvasSize = 0;
 
@@ -215,7 +215,7 @@ const ProcessManager = (function () {
 
 				DrawLabel(center, offset.radius - padding, 'Max Sampling');
 
-				ProcessManager.changeState('next');
+				ProcessManager.changeState('end');
 				break;
 			}
 
