@@ -27,7 +27,7 @@ const ProcessManager = (function () {
 
 	let state = 'nothing';
 
-	const maxFPS = 60;
+	const maxFPS = 75;
 	Timing.maxTime = 1000 / maxFPS;
 
 	const debugStates = true;
@@ -35,7 +35,7 @@ const ProcessManager = (function () {
 	let universalSeed = new Date() / 1.;
 
 	let count = 0;
-	const maxArrSize = 30000;
+	let maxPoints = 30000;
 
 	let canvasSize = 0;
 
@@ -66,10 +66,11 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
-			if (count >= maxArrSize) {
+			Timing.iterateCount();
+			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
-
+				
 				DrawLabel(center, offset.radius - padding, 'Rejection Sampling');
 
 				ProcessManager.changeState('polarUnmodfied');
@@ -100,7 +101,8 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
-			if (count >= maxArrSize) {
+			Timing.iterateCount();
+			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
@@ -134,7 +136,8 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
-			if (count >= maxArrSize) {
+			Timing.iterateCount();
+			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
@@ -171,7 +174,8 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
-			if (count >= maxArrSize) {
+			Timing.iterateCount();
+			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
@@ -209,7 +213,7 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
-			if (count >= maxArrSize) {
+			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
@@ -251,6 +255,9 @@ const ProcessManager = (function () {
 					universalSeed = (new Date() * 1) >>> 0;
 					Random.seed = universalSeed >>> 0;
 					console.log('Seed set to', universalSeed);
+
+					Timing.maxCount = DOMManager.maxCountInput.value() * 1;
+					maxPoints = DOMManager.maxPointsInput.value() * 1;
 
 					count = 0;
 
