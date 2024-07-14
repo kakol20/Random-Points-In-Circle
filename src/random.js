@@ -1,5 +1,8 @@
 const Random = (function () {
-	const max = 32768 - 1;
+	const usepcg = true;
+
+	const max = usepcg ? (~0) >>> 0 : 32767;
+
 	return {
 		seed: 256 >>> 0,
 
@@ -9,12 +12,18 @@ const Random = (function () {
 			// and >>> 0 for a 32-bit unsigned integer result. And store all your numbers
 			// in typed arrays instead of JavaScript arrays.
 
-			this.seed = (this.seed * 1103515245 + 12345) >>> 0;
+			if (usepcg) {
+				const state = this.seed * 747796405 + 289133645;
+				const word = ((state >>> ((state >>> 28) + 4)) ^ state) * 27780373;
+				
+				this.seed = ((word >>> 22) ^ word) >>> 0;
 
-			// console.log('new seed', this.seed, 'typeof', typeof this.seed);
-			// console.log('max random number', max, 'typeof', typeof max);
+				return this.seed;
+			} else {
+				this.seed = (this.seed * 1103515245 + 12345) >>> 0;
 
-			return ((this.seed / 65536) % 32768) >>> 0;
+				return ((this.seed / 65536) % 32768) >>> 0;
+			}
 		},
 
 		randFloat() {
