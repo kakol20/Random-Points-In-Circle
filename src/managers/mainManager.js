@@ -8,8 +8,9 @@ const MainManager = (function () {
 
     setup() {
       // pixelDensity(1);
+      const size = Math.min(windowWidth, windowHeight)
 
-      this.canvas = createCanvas(windowWidth, windowHeight);
+      this.canvas = createCanvas(size, size);
       this.canvas.position(0, 0);
 
       DOMManager.setup();
