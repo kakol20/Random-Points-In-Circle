@@ -32,7 +32,7 @@ const ProcessManager = (function () {
 
   const debugStates = true;
 
-  const universalSeed = new Date() / 1.;
+  let universalSeed = new Date() / 1.;
 
   let count = 0;
   const maxArrSize = 3141;
@@ -169,6 +169,7 @@ const ProcessManager = (function () {
       switch (state) {
         case 'init':
           background(28);
+          universalSeed = (new Date() * 1) >>> 0;
           Random.seed = universalSeed >>> 0;
           console.log('Seed set to', universalSeed);
 
