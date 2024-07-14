@@ -1,8 +1,11 @@
 const MainManager = (function () {
 	return {
 		canvas: 0,
+		// font: 0,
 
 		preload() {
+			// font = loadFont('../../css/OpenSans-Regular-webfont.otf');
+
 			DOMManager.preload();
 		},
 
@@ -13,11 +16,15 @@ const MainManager = (function () {
 			this.canvas = createCanvas(size, size);
 			this.canvas.position(0, 0);
 
+			textFont('Helvetica');
+			// textFont('Open Sans');
+
 			DOMManager.setup();
 			ProcessManager.setup();
 		},
 
 		draw(dt) {
+			// textFont('Open Sans');
 			ProcessManager.draw(dt);
 		}
 	}

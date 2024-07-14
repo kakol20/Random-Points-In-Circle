@@ -6,7 +6,7 @@ const ProcessManager = (function () {
 		};
 
 		strokeWeight(1.5);
-		stroke(255, 128);
+		stroke(255, 64);
 		point(pos.x, pos.y);
 	}
 
@@ -35,18 +35,20 @@ const ProcessManager = (function () {
 	let universalSeed = new Date() / 1.;
 
 	let count = 0;
-	const maxArrSize = 3141;
+	const maxArrSize = 20000;
 
 	let canvasSize = 0;
+
+	let offset = { x: 0, y: 0, radius: 0};
+	const padding = 10;
 
 	function RejectionState() {
 		Timing.start();
 
 		const center = {
-			x: canvasSize / 4,
-			y: canvasSize / 4
+			x: offset.radius,
+			y: offset.radius
 		};
-		const radius = (canvasSize / 4) - 10;
 
 		// DrawCircle(center, radius);
 
@@ -61,14 +63,14 @@ const ProcessManager = (function () {
 				chosen.y = (Random.randFloat() * 2) - 1;
 			}
 
-			DrawPoint(center, radius, chosen);
+			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
 			if (count >= maxArrSize) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
-				DrawLabel(center, radius, 'Rejection Sampling');
+				DrawLabel(center, offset.radius - padding, 'Rejection Sampling');
 
 				ProcessManager.changeState('polarUnmodfied');
 				break;
@@ -82,10 +84,9 @@ const ProcessManager = (function () {
 		Timing.start();
 
 		const center = {
-			x: (3 * canvasSize) / 4,
-			y: canvasSize / 4
+			x: offset.radius + 2 * offset.x,
+			y: offset.radius
 		};
-		const radius = (canvasSize / 4) - 10;
 
 		while (true) {
 			const angle = Random.randFloat() * Math.PI * 2;
@@ -96,14 +97,14 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, radius, chosen);
+			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
 			if (count >= maxArrSize) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
-				DrawLabel(center, radius, 'Polar Unmodified');
+				DrawLabel(center, offset.radius - padding, 'Polar Unmodified');
 
 				ProcessManager.changeState('polarSqrt');
 				break;
@@ -117,10 +118,9 @@ const ProcessManager = (function () {
 		Timing.start();
 
 		const center = {
-			x: (2 * canvasSize) / 4,
-			y: (3 * canvasSize) / 4
+			x: offset.radius + offset.x,
+			y: offset.radius + offset.y
 		};
-		const radius = (canvasSize / 4) - 10;
 
 		while (true) {
 			const angle = Random.randFloat() * Math.PI * 2;
@@ -131,14 +131,89 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, radius, chosen);
+			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
 			if (count >= maxArrSize) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
 
-				DrawLabel(center, radius, 'Inverse Transform\nSampling');
+				DrawLabel(center, offset.radius - padding, 'Inverse Transform\nSampling');
+
+				ProcessManager.changeState('infTriangle');
+				break;
+			}
+
+			if (Timing.checkTime()) break;
+		}
+	}
+
+	function InfTriangleState() {
+		Timing.start();
+
+		const center = {
+			x: offset.radius,
+			y: offset.radius + 2 * offset.y
+		};
+
+
+		while (true) {
+			const angle = Random.randFloat() * Math.PI * 2;
+
+			let length = Random.randFloat() + Random.randFloat();
+			length = length >= 1 ? length = 2 - length : length;
+
+			const chosen = {
+				x: length * Math.cos(angle),
+				y: length * Math.sin(angle)
+			};
+
+			DrawPoint(center, offset.radius - padding, chosen);
+
+			count++;
+			if (count >= maxArrSize) {
+				Random.seed = universalSeed >>> 0;
+				count = 0;
+
+				DrawLabel(center, offset.radius - padding, 'Infinite Triangle\nSampling');
+
+				ProcessManager.changeState('maxSample');
+				break;
+			}
+
+			if (Timing.checkTime()) break;
+		}
+	}
+
+	function MaxSampleState() {
+		Timing.start();
+
+		const center = {
+			x: offset.radius + 2 * offset.x,
+			y: offset.radius + 2 * offset.y
+		};
+
+		while (true) {
+			const angle = Random.randFloat() * Math.PI * 2;
+
+			let length = Random.randFloat();
+			const x = Random.randFloat();
+
+			length = x > length ? x : length;
+
+			const chosen = {
+				x: length * Math.cos(angle),
+				y: length * Math.sin(angle)
+			};
+
+			DrawPoint(center, offset.radius - padding, chosen);
+
+			count++;
+			if (count >= maxArrSize) {
+				Random.seed = universalSeed >>> 0;
+				count = 0;
+
+				DrawLabel(center, offset.radius - padding, 'Max Sampling');
 
 				ProcessManager.changeState('next');
 				break;
@@ -159,13 +234,17 @@ const ProcessManager = (function () {
 			this.changeState('init');
 
 			canvasSize = width;
+
+			// const diagonalLength = Math.sqrt(canvasSize * canvasSize + canvasSize * canvasSize) / 6;
+			// offset.x = (diagonalLength * Math.SQRT2) / 2;
+			// offset.y = offset.x;
+			const L = 2 + 2 * Math.SQRT2;
+			offset.radius = canvasSize / L;
+			offset.x = offset.radius * Math.SQRT2;
+			offset.y = offset.x;
 		},
 
 		draw(dt) {
-			let center = { x: 0, y: 0 };
-			// let chosen = { x: 0, y: 0 };
-			let radius = 0;
-
 			switch (state) {
 				case 'init':
 					background(28);
@@ -185,6 +264,12 @@ const ProcessManager = (function () {
 					break;
 				case 'polarSqrt':
 					PolarSqrtState();
+					break;
+				case 'infTriangle':
+					InfTriangleState();
+					break;
+				case 'maxSample':
+					MaxSampleState();
 					break;
 				default:
 					// do nothing
