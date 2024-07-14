@@ -16,8 +16,8 @@ const MainManager = (function () {
 			this.canvas = createCanvas(size, size);
 			this.canvas.position(0, 0);
 
-			textFont('Helvetica');
-			// textFont('Open Sans');
+			// textFont('Helvetica');
+			textFont('Open Sans');
 
 			DOMManager.setup();
 			ProcessManager.setup();
