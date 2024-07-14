@@ -138,7 +138,7 @@ const ProcessManager = (function () {
         Random.seed = universalSeed >>> 0;
         count = 0;
 
-        DrawLabel(center, radius, 'Polar Square Root');
+        DrawLabel(center, radius, 'Polar Inverse Transform');
 
         ProcessManager.changeState('next');
         break;
