@@ -6,20 +6,20 @@ const ProcessManager = (function () {
     };
 
     strokeWeight(1.5);
-    stroke(255);
+    stroke(255, 128);
     point(pos.x, pos.y);
   }
 
   function DrawLabel(center = { x: 0, y: 0 }, radius = 1, label = '') {
     strokeWeight(2.5);
-    stroke(86);
+    stroke(86, 192);
     noFill();
     ellipseMode(CENTER);
     circle(center.x, center.y, radius * 2);
 
-    strokeWeight(6);
+    strokeWeight(3);
     textSize(15);
-    stroke(24, 24, 24, 192);
+    stroke(24, 192);
     fill(255);
     textAlign(CENTER, TOP);
     text(label, center.x, center.y - radius);
@@ -113,7 +113,7 @@ const ProcessManager = (function () {
     }
   }
 
-  function PolarModifiedState() {
+  function PolarSqrtState() {
     Timing.start();
 
     const center = {
@@ -138,7 +138,7 @@ const ProcessManager = (function () {
         Random.seed = universalSeed >>> 0;
         count = 0;
 
-        DrawLabel(center, radius, 'Polar Inverse Transform');
+        DrawLabel(center, radius, 'Inverse Transform\nSampling');
 
         ProcessManager.changeState('next');
         break;
@@ -183,7 +183,7 @@ const ProcessManager = (function () {
           PolarUnmodifiedState();
           break;
         case 'polarSqrt':
-          PolarModifiedState();
+          PolarSqrtState();
           break;
         default:
           // do nothing
