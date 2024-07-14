@@ -18,7 +18,7 @@ const ProcessManager = (function () {
     circle(center.x, center.y, radius * 2);
 
     strokeWeight(6);
-    textSize(20);
+    textSize(15);
     stroke(24, 24, 24, 192);
     fill(255);
     textAlign(CENTER, TOP);
@@ -32,7 +32,7 @@ const ProcessManager = (function () {
 
   const debugStates = true;
 
-  const universalSeed = 256 >>> 0;
+  const universalSeed = new Date() / 1.;
 
   let count = 0;
   const maxArrSize = 3141;
