@@ -6,7 +6,7 @@ const ProcessManager = (function () {
 		};
 
 		strokeWeight(1.5);
-		stroke(255, 128);
+		stroke(255, 64);
 		point(pos.x, pos.y);
 	}
 
@@ -35,7 +35,7 @@ const ProcessManager = (function () {
 	let universalSeed = new Date() / 1.;
 
 	let count = 0;
-	const maxArrSize = 10000;
+	const maxArrSize = 20000;
 
 	let canvasSize = 0;
 
@@ -177,6 +177,44 @@ const ProcessManager = (function () {
 
 				DrawLabel(center, offset.radius - padding, 'Infinite Triangle\nSampling');
 
+				ProcessManager.changeState('maxSample');
+				break;
+			}
+
+			if (Timing.checkTime()) break;
+		}
+	}
+
+	function MaxSampleState() {
+		Timing.start();
+
+		const center = {
+			x: offset.radius + 2 * offset.x,
+			y: offset.radius + 2 * offset.y
+		};
+
+		while (true) {
+			const angle = Random.randFloat() * Math.PI * 2;
+
+			let length = Random.randFloat();
+			const x = Random.randFloat();
+
+			length = x > length ? x : length;
+
+			const chosen = {
+				x: length * Math.cos(angle),
+				y: length * Math.sin(angle)
+			};
+
+			DrawPoint(center, offset.radius - padding, chosen);
+
+			count++;
+			if (count >= maxArrSize) {
+				Random.seed = universalSeed >>> 0;
+				count = 0;
+
+				DrawLabel(center, offset.radius - padding, 'Max Sampling');
+
 				ProcessManager.changeState('next');
 				break;
 			}
@@ -229,6 +267,9 @@ const ProcessManager = (function () {
 					break;
 				case 'infTriangle':
 					InfTriangleState();
+					break;
+				case 'maxSample':
+					MaxSampleState();
 					break;
 				default:
 					// do nothing
