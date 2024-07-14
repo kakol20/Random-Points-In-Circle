@@ -35,7 +35,7 @@ const ProcessManager = (function () {
 	let universalSeed = new Date() / 1.;
 
 	let count = 0;
-	const maxArrSize = 20000;
+	const maxArrSize = 10000;
 
 	let canvasSize = 0;
 
