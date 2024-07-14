@@ -1,11 +1,11 @@
 const DOMManager = (function () {
-  return {
-    preload() {
+	return {
+		preload() {
 
-    },
+		},
 
-    setup() {
-      
-    }
-  }
+		setup() {
+
+		}
+	}
 })()

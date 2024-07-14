@@ -1,11 +1,11 @@
 function preload() {
-  MainManager.preload()
+	MainManager.preload()
 }
 
 function setup() {
-  MainManager.setup()
+	MainManager.setup()
 }
 
 function draw() {
-  MainManager.draw(deltaTime / 1000.0)
+	MainManager.draw(deltaTime / 1000.0)
 }
