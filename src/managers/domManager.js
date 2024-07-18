@@ -36,7 +36,7 @@ const DOMManager = (function () {
 			this.maxCountInput.position(xPos + maxCountText.width + 20, yPos);
 			yPos += Math.max(this.maxCountInput.height, maxCountText.height) + 10;
 
-			maxPointsText.position(xPos, yPos);
+			maxPointsText.position(xPos, yPos + 5);
 			this.maxPointsInput.position(xPos + maxPointsText.width + 20, yPos);
 			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 10;
 
