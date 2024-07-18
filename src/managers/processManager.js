@@ -5,7 +5,7 @@ const ProcessManager = (function () {
 			y: center.y + (chosen.y * radius)
 		};
 
-		p5Color.setAlpha(100);
+		// p5Color.setAlpha(pointAlpha);
 
 		strokeWeight(1.5);
 		stroke(p5Color);
@@ -46,6 +46,8 @@ const ProcessManager = (function () {
 
 	let useColor = false;
 
+	let pointAlpha = 64;
+
 	function RejectionState() {
 		Timing.start();
 
@@ -70,7 +72,10 @@ const ProcessManager = (function () {
 			let lab = useColor ? new OkLab(0.75, chosen.x * 0.32, chosen.y * 0.32) : new OkLab(1, 0, 0);
 			lab.fallback(true);
 
-			DrawPoint(center, offset.radius - padding, chosen, lab.p5Color);
+			let p5Col = lab.p5Color;
+			p5Col.setAlpha(pointAlpha);
+
+			DrawPoint(center, offset.radius - padding, chosen, p5Col);
 
 			count++;
 			Timing.iterateCount();
@@ -108,7 +113,10 @@ const ProcessManager = (function () {
 			let lch = useColor ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
 			lch.fallback(true);
 
-			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
+			let p5Col = lch.p5Color;
+			p5Col.setAlpha(pointAlpha);
+
+			DrawPoint(center, offset.radius - padding, chosen, p5Col);
 
 			count++;
 			Timing.iterateCount();
@@ -146,7 +154,10 @@ const ProcessManager = (function () {
 			let lch = useColor ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
 			lch.fallback(true);
 
-			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
+			let p5Col = lch.p5Color;
+			p5Col.setAlpha(pointAlpha);
+
+			DrawPoint(center, offset.radius - padding, chosen, p5Col);
 
 			count++;
 			Timing.iterateCount();
@@ -187,7 +198,10 @@ const ProcessManager = (function () {
 			let lch = useColor ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
 			lch.fallback(true);
 
-			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
+			let p5Col = lch.p5Color;
+			p5Col.setAlpha(pointAlpha);
+
+			DrawPoint(center, offset.radius - padding, chosen, p5Col);
 
 			count++;
 			Timing.iterateCount();
@@ -229,7 +243,10 @@ const ProcessManager = (function () {
 			let lch = useColor ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
 			lch.fallback(true);
 
-			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
+			let p5Col = lch.p5Color;
+			p5Col.setAlpha(pointAlpha);
+
+			DrawPoint(center, offset.radius - padding, chosen, p5Col);
 
 			count++;
 			Timing.iterateCount();
@@ -277,10 +294,13 @@ const ProcessManager = (function () {
 					Random.seed = universalSeed >>> 0;
 					console.log('Seed set to', universalSeed);
 
-					Timing.maxCount = DOMManager.maxCountInput.value() * 1;
-					maxPoints = DOMManager.maxPointsInput.value() * 1;
+					const countMax = (~0) >>> 0;
+					Timing.maxCount = Math.max(Math.min(DOMManager.maxCountInput.value() * 1, countMax), 1);
+					maxPoints = Math.max(Math.min(DOMManager.maxPointsInput.value() * 1, countMax), 1);
 
 					useColor = DOMManager.colorCheckbox.checked();
+
+					pointAlpha = Math.max(Math.min(DOMManager.pointAlphaInput.value() * 1, 255), 0);
 
 					count = 0;
 
