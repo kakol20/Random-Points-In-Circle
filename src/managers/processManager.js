@@ -213,6 +213,7 @@ const ProcessManager = (function () {
 			DrawPoint(center, offset.radius - padding, chosen);
 
 			count++;
+			Timing.iterateCount();
 			if (count >= maxPoints) {
 				Random.seed = universalSeed >>> 0;
 				count = 0;
