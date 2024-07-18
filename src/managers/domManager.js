@@ -14,7 +14,7 @@ const DOMManager = (function () {
 			});
 
 			maxCountText = createSpan('Points/Frame');
-			this.maxCountInput = createInput(500, 'number');
+			this.maxCountInput = createInput(30000, 'number');
 			this.maxCountInput.size(75, this.maxCountInput.height);
 
 			maxPointsText = createSpan('Max Points');
@@ -36,7 +36,6 @@ const DOMManager = (function () {
 			maxPointsText.position(xPos, yPos + 5);
 			this.maxPointsInput.position(xPos + maxPointsText.width + 20, yPos);
 			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 15;
-			console.log(this.maxPointsInput.height);
 		}
 	}
 })()
