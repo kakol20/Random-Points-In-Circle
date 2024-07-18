@@ -5,6 +5,11 @@
 	font-style: normal;
 }
 
+.content_listing_r input {
+	box-sizing:border-box;
+	-moz-box-sizing:border-box;
+}
+
 html,
 body {
 	margin: 0;

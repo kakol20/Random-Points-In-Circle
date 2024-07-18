@@ -16,12 +16,13 @@ const DOMManager = (function () {
 
 			maxCountText = createSpan('Points/Frame');
 			this.maxCountInput = createInput(30000, 'number');
-			this.maxCountInput.size(75, this.maxCountInput.height);
+			this.maxCountInput.attribute('min', 1);
+			this.maxCountInput.attribute('max', (~0) >>> 0);
 
 			maxPointsText = createSpan('Max Points');
 			this.maxPointsInput = createInput(30000, 'number');
-			this.maxPointsInput.size(75, this.maxPointsInput.height);
-
+			this.maxPointsInput.attribute('min', 1);
+			this.maxPointsInput.attribute('max', (~0) >>> 0);
 			this.colorCheckbox = createCheckbox(' Use Colour', false);
 		},
 
@@ -32,7 +33,7 @@ const DOMManager = (function () {
 			this.restartButton.position(xPos, yPos);
 			yPos += this.restartButton.height + 10;
 
-			maxCountText.position(xPos, yPos + 5);
+			maxCountText.position(xPos, yPos);
 			this.maxCountInput.position(xPos + maxCountText.width + 20, yPos);
 			yPos += Math.max(this.maxCountInput.height, maxCountText.height) + 10;
 
