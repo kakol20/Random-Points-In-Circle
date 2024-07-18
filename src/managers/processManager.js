@@ -1,12 +1,14 @@
 const ProcessManager = (function () {
-	function DrawPoint(center = { x: 0, y: 0 }, radius = 1, chosen = { x: 0, y: 0 }) {
+	function DrawPoint(center = { x: 0, y: 0 }, radius = 1, chosen = { x: 0, y: 0 }, p5Color = color('white')) {
 		const pos = {
 			x: center.x + (chosen.x * radius),
 			y: center.y + (chosen.y * radius)
 		};
 
+		p5Color.setAlpha(100);
+
 		strokeWeight(1.5);
-		stroke(255, 64);
+		stroke(p5Color);
 		point(pos.x, pos.y);
 	}
 
@@ -63,7 +65,10 @@ const ProcessManager = (function () {
 				chosen.y = (Random.randFloat() * 2) - 1;
 			}
 
-			DrawPoint(center, offset.radius - padding, chosen);
+			let lab = DOMManager.colorCheckbox.checked() ? new OkLab(0.75, chosen.x * 0.32, chosen.y * 0.32) : new OkLab(1, 0, 0);
+			lab.fallback(true);
+
+			DrawPoint(center, offset.radius - padding, chosen, lab.p5Color);
 
 			count++;
 			Timing.iterateCount();
@@ -98,7 +103,10 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, offset.radius - padding, chosen);
+			let lch = DOMManager.colorCheckbox.checked() ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
+			lch.fallback(true);
+
+			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
 
 			count++;
 			Timing.iterateCount();
@@ -133,7 +141,10 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, offset.radius - padding, chosen);
+			let lch = DOMManager.colorCheckbox.checked() ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
+			lch.fallback(true);
+
+			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
 
 			count++;
 			Timing.iterateCount();
@@ -171,7 +182,10 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, offset.radius - padding, chosen);
+			let lch = DOMManager.colorCheckbox.checked() ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
+			lch.fallback(true);
+
+			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
 
 			count++;
 			Timing.iterateCount();
@@ -210,7 +224,10 @@ const ProcessManager = (function () {
 				y: length * Math.sin(angle)
 			};
 
-			DrawPoint(center, offset.radius - padding, chosen);
+			let lch = DOMManager.colorCheckbox.checked() ? new OkLCh(0.75, length * 0.32, angle) : new OkLCh(1, 0, 0);
+			lch.fallback(true);
+
+			DrawPoint(center, offset.radius - padding, chosen, lch.p5Color);
 
 			count++;
 			Timing.iterateCount();

@@ -6,6 +6,7 @@ const DOMManager = (function () {
 		restartButton: 0,
 		maxCountInput: 0,
 		maxPointsInput: 0,
+		colorCheckbox: 0,
 
 		preload() {
 			this.restartButton = createButton('Restart');
@@ -20,6 +21,8 @@ const DOMManager = (function () {
 			maxPointsText = createSpan('Max Points');
 			this.maxPointsInput = createInput(30000, 'number');
 			this.maxPointsInput.size(75, this.maxPointsInput.height);
+
+			this.colorCheckbox = createCheckbox(' Use Colour', false);
 		},
 
 		setup() {
@@ -33,9 +36,12 @@ const DOMManager = (function () {
 			this.maxCountInput.position(xPos + maxCountText.width + 20, yPos);
 			yPos += Math.max(this.maxCountInput.height, maxCountText.height) + 10;
 
-			maxPointsText.position(xPos, yPos + 5);
+			maxPointsText.position(xPos, yPos);
 			this.maxPointsInput.position(xPos + maxPointsText.width + 20, yPos);
-			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 15;
+			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 10;
+
+			this.colorCheckbox.position(xPos, yPos);
+			yPos += this.colorCheckbox.height + 10;
 		}
 	}
 })()
