@@ -252,6 +252,7 @@ const ProcessManager = (function () {
 			switch (state) {
 				case 'init':
 					background(28);
+					// universalSeed = 1708614304 >>> 0; // for testing - an example of a bad seed
 					universalSeed = (new Date() * 1) >>> 0;
 					Random.seed = universalSeed >>> 0;
 					console.log('Seed set to', universalSeed);
