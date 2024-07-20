@@ -6,7 +6,7 @@ const Random = (function () {
 	// const usepcg = true;
 
 	// let max = usepcg ? (~0) >>> 0 : 32767;
-	const randomMethod = 'lfsr';
+	let randomMethod = 'pcg';
 
 	let max = 0;
 	if (randomMethod === 'pcg' || randomMethod === 'lfsr') {
@@ -25,17 +25,20 @@ const Random = (function () {
 			// and >>> 0 for a 32-bit unsigned integer result. And store all your numbers
 			// in typed arrays instead of JavaScript arrays.
 
-			if (randomMethod === 'pcg') {
-				// const state = this.seed * 747796405 + 289133645;
-				// const word = ((state >>> ((state >>> 28) + 4)) ^ state) * 27780373;
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul
 
-				let state = (this.seed * 747796405) >>> 0;
-				state = (state + 289133645) >>> 0;
+			if (randomMethod === 'pcg') {
+				// unsigned int state = seed * 747796405 + 2891336453;
+				// unsigned int word = ((state >> ((state >> 28) + 4)) ^ state) * 27780373;
+				// seed = (word >> 22) ^ word;
+
+				let state = Math.imul(this.seed, 747796405) >>> 0;
+				state = (state + 2891336453) >>> 0;
 
 				let word = ((state >>> 28) + 4) >>> 0;
 				word = state >>> word;
 				word = (word ^ state) >>> 0;
-				word = (word * 27780373) >>> 0;
+				word = Math.imul(word, 27780373) >>> 0;
 
 				this.seed = ((word >>> 22) ^ word) >>> 0;
 
@@ -66,6 +69,7 @@ const Random = (function () {
 				return out >>> 0;
 
 			} else {
+				// lcg
 				// this.seed = (this.seed * 1103515245 + 12345) >>> 0;
 				this.seed = (this.seed * 1103515245) >>> 0;
 				this.seed = (this.seed + 12345) >>> 0;
