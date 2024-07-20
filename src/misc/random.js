@@ -6,7 +6,7 @@ const Random = (function () {
 	// const usepcg = true;
 
 	// let max = usepcg ? (~0) >>> 0 : 32767;
-	let randomMethod = 'pcg';
+	let randomMethod = 'lcg';
 
 	let max = 0;
 	if (randomMethod === 'pcg' || randomMethod === 'lfsr') {
@@ -70,12 +70,15 @@ const Random = (function () {
 
 			} else {
 				// lcg
-				// this.seed = (this.seed * 1103515245 + 12345) >>> 0;
-				this.seed = (this.seed * 1103515245) >>> 0;
+				// seed = seed * 1103515245 + 12345;
+				// return (seed / 65536) % 32768;
+
+				this.seed = Math.imul(this.seed, 1103515245) >>> 0;
 				this.seed = (this.seed + 12345) >>> 0;
 
-				// return ((this.seed / 65536) % 32768) >>> 0;
-				return UnsignedMod(Math.floor(this.seed / 65536), 32768) >>> 0;
+				const out = (this.seed / 65536) >>> 0;
+
+				return out % 32768;
 			}
 		},
 
