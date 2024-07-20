@@ -2,6 +2,7 @@ const DOMManager = (function () {
 	let maxCountText = 0;
 	let maxPointsText = 0;
 	let pointAlphaText = 0;
+	let randomText = 0;
 
 	return {
 		restartButton: 0,
@@ -9,6 +10,7 @@ const DOMManager = (function () {
 		maxPointsInput: 0,
 		colorCheckbox: 0,
 		pointAlphaInput: 0,
+		randomSelect: 0,
 
 		preload() {
 			this.restartButton = createButton('Restart');
@@ -32,6 +34,14 @@ const DOMManager = (function () {
 			this.pointAlphaInput = createInput(64, 'number');
 			this.pointAlphaInput.attribute('min', 0);
 			this.pointAlphaInput.attribute('max', 255);
+
+			randomText = createSpan('RNG Algorithm');
+			this.randomSelect = createSelect();
+			this.randomSelect.option('PCG');
+			this.randomSelect.option('LCG');
+			this.randomSelect.option('LFSR');
+			// randomText.size(AUTO, this.randomSelect.size().height);
+			this.randomSelect.selected('LCG');
 		},
 
 		setup() {
@@ -45,7 +55,7 @@ const DOMManager = (function () {
 			this.maxCountInput.position(xPos + maxCountText.size().width + 20, yPos);
 			yPos += Math.max(this.maxCountInput.height, maxCountText.height) + 10;
 
-			maxPointsText.position(xPos, yPos + 5);
+			maxPointsText.position(xPos, yPos);
 			this.maxPointsInput.position(xPos + maxPointsText.size().width + 20, yPos);
 			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 10;
 
@@ -53,8 +63,13 @@ const DOMManager = (function () {
 			yPos += this.colorCheckbox.height + 10;
 
 			pointAlphaText.position(xPos, yPos);
-			this.pointAlphaInput.position(xPos + pointAlphaText.size().width + 20, yPos);
+			this.pointAlphaInput.position(xPos + pointAlphaText.size().width + 25, yPos);
 			yPos += Math.max(pointAlphaText.height, this.pointAlphaInput.height) + 10;
+
+			randomText.position(xPos, yPos);
+			this.randomSelect.position(xPos + randomText.size().width + 15, yPos);
+			yPos += Math.max(randomText.height, this.randomSelect.height) + 10;
+
 		}
 	}
 })()
