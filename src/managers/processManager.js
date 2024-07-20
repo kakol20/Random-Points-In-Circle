@@ -302,6 +302,8 @@ const ProcessManager = (function () {
 
 					pointAlpha = Math.max(Math.min(DOMManager.pointAlphaInput.value() * 1, 255), 0);
 
+					Random.changeRandomMethod(DOMManager.randomSelect.selected());
+
 					count = 0;
 
 					this.changeState('rejection');

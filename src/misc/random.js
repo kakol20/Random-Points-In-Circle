@@ -6,10 +6,10 @@ const Random = (function () {
 	// const usepcg = true;
 
 	// let max = usepcg ? (~0) >>> 0 : 32767;
-	const randomMethod = 'lfsr';
+	let randomMethod = 'PCG';
 
 	let max = 0;
-	if (randomMethod === 'pcg' || randomMethod === 'lfsr') {
+	if (randomMethod === 'PCG' || randomMethod === 'LFSR') {
 		max = (~0) >>> 0;
 	} else {
 		max = 32767;
@@ -19,29 +19,43 @@ const Random = (function () {
 	return {
 		seed: 256 >>> 0,
 
+		changeRandomMethod(method = 'PCG') {
+			randomMethod = method;
+			console.log('Random Method Changed:', randomMethod);
+
+			if (randomMethod === 'PCG' || randomMethod === 'LFSR') {
+				max = (~0) >>> 0;
+			} else {
+				max = 32767;
+			}
+			console.log('Rand Max', max);
+		},
+
 		randInt() {
 			// https://james.darpinian.com/blog/integer-math-in-javascript#tldr
 			// Add | 0 after every math operation to get a 32-bit signed integer result,
 			// and >>> 0 for a 32-bit unsigned integer result. And store all your numbers
 			// in typed arrays instead of JavaScript arrays.
 
-			if (randomMethod === 'pcg') {
-				// const state = this.seed * 747796405 + 289133645;
-				// const word = ((state >>> ((state >>> 28) + 4)) ^ state) * 27780373;
+			// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/imul
 
-				let state = (this.seed * 747796405) >>> 0;
-				state = (state + 289133645) >>> 0;
+			if (randomMethod === 'PCG') {
+				// unsigned int state = seed * 747796405 + 2891336453;
+				// unsigned int word = ((state >> ((state >> 28) + 4)) ^ state) * 27780373;
+				// seed = (word >> 22) ^ word;
+
+				let state = Math.imul(this.seed, 747796405) >>> 0;
+				state = (state + 2891336453) >>> 0;
 
 				let word = ((state >>> 28) + 4) >>> 0;
 				word = state >>> word;
 				word = (word ^ state) >>> 0;
-				word = (word * 27780373) >>> 0;
+				word = Math.imul(word, 27780373) >>> 0;
 
 				this.seed = ((word >>> 22) ^ word) >>> 0;
 
 				return this.seed;
-			} else if (randomMethod === 'lfsr') {
-				// slower but guarantees better distribution at any starting seed
+			} else if (randomMethod === 'LFSR') {
 				let out = 0;
 
 				for (let i = 31; i >= 0; i--) {
@@ -66,12 +80,16 @@ const Random = (function () {
 				return out >>> 0;
 
 			} else {
-				// this.seed = (this.seed * 1103515245 + 12345) >>> 0;
-				this.seed = (this.seed * 1103515245) >>> 0;
+				// lcg
+				// seed = seed * 1103515245 + 12345;
+				// return (seed / 65536) % 32768;
+
+				this.seed = Math.imul(this.seed, 1103515245) >>> 0;
 				this.seed = (this.seed + 12345) >>> 0;
 
-				// return ((this.seed / 65536) % 32768) >>> 0;
-				return UnsignedMod(Math.floor(this.seed / 65536), 32768) >>> 0;
+				const out = (this.seed / 65536) >>> 0;
+
+				return out % 32768;
 			}
 		},
 
