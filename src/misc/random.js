@@ -44,7 +44,6 @@ const Random = (function () {
 
 				return this.seed;
 			} else if (randomMethod === 'lfsr') {
-				// slower but guarantees better distribution at any starting seed
 				let out = 0;
 
 				for (let i = 31; i >= 0; i--) {

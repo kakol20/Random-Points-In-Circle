@@ -42,18 +42,18 @@ const DOMManager = (function () {
 			yPos += this.restartButton.height + 10;
 
 			maxCountText.position(xPos, yPos);
-			this.maxCountInput.position(xPos + maxCountText.width + 20, yPos);
+			this.maxCountInput.position(xPos + maxCountText.size().width + 20, yPos);
 			yPos += Math.max(this.maxCountInput.height, maxCountText.height) + 10;
 
 			maxPointsText.position(xPos, yPos + 5);
-			this.maxPointsInput.position(xPos + maxPointsText.width + 20, yPos);
+			this.maxPointsInput.position(xPos + maxPointsText.size().width + 20, yPos);
 			yPos += Math.max(maxPointsText.height, this.maxPointsInput.height) + 10;
 
 			this.colorCheckbox.position(xPos, yPos);
 			yPos += this.colorCheckbox.height + 10;
 
 			pointAlphaText.position(xPos, yPos);
-			this.pointAlphaInput.position(xPos + pointAlphaText.width + 25, yPos);
+			this.pointAlphaInput.position(xPos + pointAlphaText.size().width + 20, yPos);
 			yPos += Math.max(pointAlphaText.height, this.pointAlphaInput.height) + 10;
 		}
 	}
