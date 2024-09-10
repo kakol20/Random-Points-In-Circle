@@ -41,7 +41,7 @@ const DOMManager = (function () {
 			this.randomSelect.option('LCG');
 			this.randomSelect.option('LFSR');
 			// randomText.size(AUTO, this.randomSelect.size().height);
-			this.randomSelect.selected('LCG');
+			this.randomSelect.selected('PCG');
 		},
 
 		setup() {

@@ -188,7 +188,7 @@ const ProcessManager = (function () {
 			const angle = Random.randFloat() * Math.PI * 2;
 
 			let length = Random.randFloat() + Random.randFloat();
-			length = length >= 1 ? length = 2 - length : length;
+			length = length >= 1 ? 2 - length : length;
 
 			const chosen = {
 				x: length * Math.cos(angle),
